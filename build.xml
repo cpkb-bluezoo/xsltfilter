@@ -1,0 +1,38 @@
+<project name="xsltfilter" default="build" basedir=".">
+
+  <description>Build file for XSLTFilter</description>
+
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="lib" location="lib"/>
+
+  <path id="servletapi"><!-- compile time dependency -->
+    <pathelement location="${lib}/servlet-api-2.4.jar"/>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="build" depends="init">
+    <javac srcdir="${src}" destdir="${build}">
+      <classpath>
+        <path refid="servletapi"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="dist" depends="build">
+    <mkdir dir="${dist}/lib"/>
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/xsltfilter-${DSTAMP}.jar" basedir="${build}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+</project>
